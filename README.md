@@ -1,3 +1,117 @@
+## Project Description
+
+
+
+
+
+
+
+
+
+
+
+
+## Project Structure
+src
+|   server.js   # App entry point
+|___api         # Express route controllers for all REST APIs.
+|___models      # Database models
+|___public      # Publicly accessible directory (images, accessible files, etc)
+|___routes      # Express route controllers for all the app endpoints (for front-end pages)
+|___services    # All business logic
+|___views       # front-end ejs pages
+
+
+
+
+## MongoDB Schema
+
+
+
+
+
+
+## TODO
+
+
+
+
+
+
+
+
+
+
+
+
+## technical details
+####node.js
+operates on a single thread, using non-blocking I/O calls, allowing it to support thousands of simultaneous connections.
+this makes nodejs extremely scalable and adaptable to any number of modules or user load.
+pros: faster development time, productivity
+pros: single thread, event driven and async. doesn't have to create new thread for every request.
+cons: performance drop when handling heavy computing tasks
+cons: unstable API, possible lack of library support
+
+
+
+####node.js threadpool:
+fixed number of threads are created as soon as node app starts.
+all incoming requests are placed in a queue.
+Then, any free thread in the pool handles the request.
+
+
+
+####Promise:
+proxy for a value not necessarily known when the promise is created.
+Allows you to associate handlers with async action's eventual success value or failure reason.
+states => pending, fulfilled, rejected
+
+
+
+####How to avoid callback hell:
+use promises
+use async/await
+
+
+
+####password encryption Salt:
+salt is a random string. by using hash(password+salt), hash function is not predictable.
+The same password will not yield the same hash.
+No need to store salt in the DB, as it gets automatically included with the hash.
+
+
+
+
+####app.use(express.urlencoded({ extended: false }));
+parse url_encoded data ex) localhost3000?person[name]=bobby&person[age]=3
+then, let us use that data in POST req.body
+
+extended:false => use query-string module instead of qs module
+qs library:          { person: { name: 'bobby', age: '3' } }
+querystring library: { 'person[age]': '3', 'person[name]': 'bobby' }
+
+
+
+
+
+#### package description:
+nodemon: restart service automatically every time a change is made
+dotenv: .env file with all configurations
+passport: authentication library (can be used with facebook, google login etc)
+passport-local: authentication library for local login/register system
+express-session: manages authentication token (temporary token with timeout variable. Used for keeping account alive through different pages)
+express-flash: displays pretty authentication messages. Internally used by passport.
+method-override: override API method, allow to use POST from HTML for delete API
+
+
+
+
+
+## References:
+https://softwareontheroad.com/ideal-nodejs-project-structure/
+
+
 ## 온라인 테스트 진행 방법
 - 아래 테스트 내용을 확인하고, 코드를 작성해주세요.
 - 테스트 결과물 제출은 Github에서 진행됩니다.
