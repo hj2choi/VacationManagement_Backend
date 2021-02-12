@@ -7,7 +7,7 @@ module.exports = module.exports = {
     },
     redirectOnAuthSuccess: function(req, res, next) {
       if (req.isAuthenticated()) {
-        return res.redirect('/')
+        return res.redirect('/dashboard')
       }
       next()
     },

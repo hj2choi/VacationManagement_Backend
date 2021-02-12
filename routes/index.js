@@ -3,8 +3,13 @@ const router = express.Router()
 const auth = require("./middleware/auth.js")
 
 // index route
-router.get('/', auth.redirectOnAuthFail, (req, res) => {
+router.get('/', auth.redirectOnAuthSuccess, (req, res) => {
   res.render('index')
+})
+
+// dashboard route
+router.get('/dashboard', auth.redirectOnAuthFail, (req, res) => {
+  res.render('dashboard', {username: req.user.name})
 })
 
 // login route

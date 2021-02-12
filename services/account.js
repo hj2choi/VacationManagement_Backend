@@ -7,7 +7,7 @@ class AccountManager {
   }
 
   async registerUser(req) {
-    if (getUserByName(req.body.name)) {
+    if (this.getUserByName(req.body.name)) {
       console.log("registerUser(): username already exists")
       return false
     }
@@ -29,7 +29,7 @@ class AccountManager {
     }
   }
 
-  // can't access class members
+
   async authenticateUser(name, password, done) {
     var user = users.find(user => user.name === name)
     if (user == null) {

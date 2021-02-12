@@ -7,7 +7,7 @@ const accountManager = require("../../../services/account.js")
 
 // login and authenticate with passport
 router.post("/login", auth.redirectOnAuthSuccess, passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/dashboard",
   failureRedirect: "/login",
   failureFlash: true
 }))
@@ -15,7 +15,7 @@ router.post("/login", auth.redirectOnAuthSuccess, passport.authenticate("local",
 // register new user
 router.post("/register", auth.redirectOnAuthSuccess, async function(req, res) {
   if (await accountManager.registerUser(req)) {
-    res.redirect("/")
+    res.redirect("/login")
   }
   else {
     res.redirect("/register")

@@ -1,0 +1,6 @@
+<br><br><br>
+<% if (typeof username !== 'undefined') { %>
+<form action="/api/v1/logout?_method=DELETE" method="POST">
+  <button type="submit">Log Out</button>
+</form>
+<% } %>

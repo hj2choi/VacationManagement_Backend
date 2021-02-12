@@ -33,7 +33,9 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
 
 const indexRouter = require("./routes/index")
+const vacationRouter = require("./routes/vacation")
 app.use("/", indexRouter)
+app.use("/vacation", vacationRouter)
 
 const api_accountRouter = require("./routes/api/v"+config.API_VERSION+"/account")
 app.use("/api/v"+config.API_VERSION, api_accountRouter)
