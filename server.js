@@ -1,3 +1,4 @@
+const config = require("./config/config.json")
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config()
 }
@@ -24,14 +25,14 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: {_expires: 60000} // session timeout in ms
+  cookie: {_expires: config.SESSION_TIMEOUT_MILLIS} // session timeout in ms
 }))
 app.use(passport.initialize())
 app.use(passport.session())
 
 const indexRouter = require("./routes/index")
-const api_accountRouter = require("./routes/api/v1/account")
+const api_accountRouter = require("./routes/api/v"+config.API_VERSION+"/account")
 app.use("/", indexRouter)
-app.use("/api/v1", api_accountRouter)
+app.use("/api/v"+config.API_VERSION, api_accountRouter)
 
-app.listen(process.env.PORT || 3000)
+app.listen(process.env.PORT || config.DEV_PORT)

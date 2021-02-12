@@ -105,7 +105,10 @@ express-flash: displays pretty authentication messages. Internally used by passp
 method-override: override API method, allow to use POST from HTML for delete API
 
 
-
+## questions:
+are modules (require module) designed in singleton pattern?
+I don't know how passport works exactly.
+I don't know how salt works exactly. I just know that salt is a random string that doesn't need to be stored in DB
 
 
 ## References:

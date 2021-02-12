@@ -7,10 +7,8 @@ class AuthService {
   }
 
   async registerUser(req) {
-    console.log("registerUser()")
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10); // await: causes async function execution to pause until a Promise is settled.
-      console.log("hash= "+hashedPassword)
       users.push({
         id: Date.now().toString(),
         name: req.body.name,
@@ -18,7 +16,6 @@ class AuthService {
         password: hashedPassword,
         remaining_vacation: 15
       })
-      console.log(users)
       return true
     } catch (e) {
       console.log(e)
@@ -27,7 +24,6 @@ class AuthService {
   }
 
   async authenticateUser(name, password, done) {
-    console.log("authenticateUser()")
     var user = users.find(user => user.name === name)
     if (user == null) {
       return done(null, false, { message: 'No user with that name' })
@@ -40,7 +36,7 @@ class AuthService {
         return done(null, false, { message: 'Password incorrect' })
       }
     } catch (e) {
-      return done(e)
+      return done("error") // Don't pass exact error message for security concern.
     }
   }
 
@@ -49,7 +45,6 @@ class AuthService {
   }
 
   redirectOnAuthFail(req, res, next) {
-    console.log("redirectOnAuthFail()")
     if (req.isAuthenticated()) {
       return next()
     }
@@ -57,7 +52,6 @@ class AuthService {
   }
 
   redirectOnAuthSuccess(req, res, next) {
-    console.log("redirectOnAuthSuccess()")
     if (req.isAuthenticated()) {
       return res.redirect('/')
     }
