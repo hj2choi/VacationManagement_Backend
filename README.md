@@ -14,9 +14,9 @@
 ## Project Structure
 src
 |   server.js   # App entry point
-|___config      # .env and config related
+|___config      # configurations
 |___models      # Database models
-|___public      # Publicly accessible directory (images, accessible files, etc)
+|___public      # Publicly accessible directory (images, public filesystem, etc)
 |___routes      # Express route controllers for all the HTTP endpoints (Controller part in MVC)
 |___services    # All business logic (Model part in MVC)
 |___views       # front-end ejs pages (View part in MVC)
@@ -105,13 +105,20 @@ express-flash: displays pretty authentication messages. Internally used by passp
 method-override: override API method, allow to use POST from HTML for delete API
 
 
+
+
 ## questions:
 are modules (require module) designed in singleton pattern?
-I don't know how passport works exactly.
+I don't know exact inner-workings of passport. Session is stored in Cookies as encrypted auth token
 I don't know how salt works exactly. I just know that salt is a random string that doesn't need to be stored in DB
 
 
+
+
+
+
 ## References:
+https://www.youtube.com/watch?v=-RCnNyD0L-s&ab_channel=WebDevSimplified
 https://softwareontheroad.com/ideal-nodejs-project-structure/
 
 

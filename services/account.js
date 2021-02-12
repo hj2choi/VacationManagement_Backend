@@ -2,7 +2,7 @@ bcrypt = require("bcrypt")
 
 users = []
 
-class AuthService {
+class AccountManager {
   constructor() {
   }
 
@@ -16,6 +16,7 @@ class AuthService {
         password: hashedPassword,
         remaining_vacation: 15
       })
+      console.log(users)
       return true
     } catch (e) {
       console.log(e)
@@ -23,6 +24,7 @@ class AuthService {
     }
   }
 
+  // can't access class members
   async authenticateUser(name, password, done) {
     var user = users.find(user => user.name === name)
     if (user == null) {
@@ -44,19 +46,41 @@ class AuthService {
     return users.find(user => user.id === id)
   }
 
-  redirectOnAuthFail(req, res, next) {
+  getUserByName(name) {
+    return users.find(user => user.name === name)
+  }
+
+
+  decrementRemainingVacation(user, days) {
+    if (user.remaining_vacation < days) {
+      return false
+    }
+    else {
+      user.remaining_vacation -= days
+      return true
+    }
+  }
+
+  getAllUsers() {
+    return users
+  }
+
+  //@TODO: MVC의 Model 파트에서 res object를 직접 처리하는건 좋은 디자인이 아닙니다.
+  //       auth_middleware.js 등 파일을 새로 만들거나 controller로 옮기는 등, 다른 방법을 찾아야함.
+  //middleware for checking if user is logged in
+  /*redirectOnAuthFail(req, res, next) {
     if (req.isAuthenticated()) {
       return next()
     }
     res.redirect('/login')
   }
-
+  //middleware for checking if user isn't logged in yet
   redirectOnAuthSuccess(req, res, next) {
     if (req.isAuthenticated()) {
       return res.redirect('/')
     }
     next()
-  }
+  }*/
 }
 
-module.exports = new AuthService()
+module.exports = new AccountManager()

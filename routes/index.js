@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const auth = require("../services/auth.js")
+const auth = require("./middleware/auth.js")
 
 // index route
 router.get('/', auth.redirectOnAuthFail, (req, res) => {

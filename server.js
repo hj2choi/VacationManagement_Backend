@@ -10,6 +10,7 @@ const bodyParser = require("body-parser")
 const flash = require("express-flash")
 const session = require("express-session")
 const passport = require("passport")
+const methodOverride = require('method-override')
 
 const initializePassport = require("./config/passport_config")
 initializePassport();
@@ -29,10 +30,12 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(methodOverride('_method'))
 
 const indexRouter = require("./routes/index")
-const api_accountRouter = require("./routes/api/v"+config.API_VERSION+"/account")
 app.use("/", indexRouter)
+
+const api_accountRouter = require("./routes/api/v"+config.API_VERSION+"/account")
 app.use("/api/v"+config.API_VERSION, api_accountRouter)
 
 app.listen(process.env.PORT || config.DEV_PORT)
