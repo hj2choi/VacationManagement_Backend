@@ -14,12 +14,12 @@
 ## Project Structure
 src
 |   server.js   # App entry point
-|___api         # Express route controllers for all REST APIs.
+|___config      # .env and config related
 |___models      # Database models
 |___public      # Publicly accessible directory (images, accessible files, etc)
-|___routes      # Express route controllers for all the app endpoints (for front-end pages)
-|___services    # All business logic
-|___views       # front-end ejs pages
+|___routes      # Express route controllers for all the HTTP endpoints (Controller part in MVC)
+|___services    # All business logic (Model part in MVC)
+|___views       # front-end ejs pages (View part in MVC)
 
 
 

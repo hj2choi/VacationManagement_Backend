@@ -1,18 +1,19 @@
 const express = require('express')
 const router = express.Router()
+const auth = require("../services/auth.js")
 
 // index route
-router.get('/', (req, res) => {
+router.get('/', auth.redirectOnAuthFail, (req, res) => {
   res.render('index')
 })
 
 // login route
-router.get('/login', (req, res) => {
+router.get('/login', auth.redirectOnAuthSuccess, (req, res) => {
   res.render('login')
 })
 
 // register route
-router.get('/register', (req, res) => {
+router.get('/register', auth.redirectOnAuthSuccess, (req, res) => {
   res.render('register')
 })
 
