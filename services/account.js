@@ -1,4 +1,4 @@
-bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt")
 
 users = []
 
@@ -7,6 +7,11 @@ class AccountManager {
   }
 
   async registerUser(req) {
+    if (getUserByName(req.body.name)) {
+      console.log("registerUser(): username already exists")
+      return false
+    }
+
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10); // await: causes async function execution to pause until a Promise is settled.
       users.push({
@@ -50,13 +55,13 @@ class AccountManager {
     return users.find(user => user.name === name)
   }
 
-
   decrementRemainingVacation(user, days) {
     if (user.remaining_vacation < days) {
       return false
     }
     else {
       user.remaining_vacation -= days
+      console.log(users)
       return true
     }
   }
