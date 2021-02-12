@@ -1,0 +1,50 @@
+<input type="radio" id="quarter" name="mode" value="quarter">
+<label for="quarter">Quarter (반반차)</label><br>
+<input type="radio" id="half" name="mode" value="half">
+<label for="half">Half (반차)</label><br>
+<input type="radio" id="full" name="mode" value="full" required>
+<label for="full">Full (연차)</label>
+<br><br>
+
+<label for="startdate">Start Date:</label>
+<input type="date" id="startdate" name="startdate" value="<%= todayISOString %>" min="<%= todayISOString %>" required>
+<br>
+<label for="days">Days off (between 1 and <%= remaining_vacation %>):</label>
+<input type="number" id="days" name="days" value="1" min="1" max="<%= remaining_vacation %>" disabled>
+<br><br>
+
+<label for="comment">Comment:</label><br>
+<input type="text" id="comment" name="comment" size="100" value="특정 사유는 없습니다"><br>
+
+<script>
+
+  //document.getElementById('startdate').value = new Date().toDateInputValue();
+  //document.getElementById('startdate').min = new Date().toDateInputValue();
+
+  function disable() {
+    document.getElementById("days").disabled=true;
+  }
+  function enable() {
+    document.getElementById("days").disabled=false;
+  }
+
+  document.getElementById('full').onchange = function() {
+    if(this.checked==true){
+      document.getElementById("startdate").focus();
+      enable();
+    }
+  };
+  document.getElementById('half').onchange = function() {
+    if(this.checked==true){
+      document.getElementById("startdate").focus();
+      disable();
+    }
+  };
+  document.getElementById('quarter').onchange = function() {
+    if(this.checked==true){
+      document.getElementById("startdate").focus();
+      disable();
+    }
+  };
+
+</script>

@@ -34,10 +34,11 @@ app.use(methodOverride('_method'))
 
 const indexRouter = require("./routes/index")
 const vacationRouter = require("./routes/vacation")
+const api_accountRouter = require("./routes/api/v"+config.API_VERSION+"/account")
+const api_vacationRouter = require("./routes/api/v"+config.API_VERSION+"/vacation")
 app.use("/", indexRouter)
 app.use("/vacation", vacationRouter)
-
-const api_accountRouter = require("./routes/api/v"+config.API_VERSION+"/account")
-app.use("/api/v"+config.API_VERSION, api_accountRouter)
+app.use("/api/v"+config.API_VERSION+"/account", api_accountRouter)
+app.use("/api/v"+config.API_VERSION+"/vacation", api_vacationRouter)
 
 app.listen(process.env.PORT || config.DEV_PORT)

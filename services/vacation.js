@@ -1,23 +1,32 @@
 const accountManager = require("./account")
+const dateManager = require("./date")
 
-vacation_list = [] // {username: String, mode:{"half","quarter","full"}, startDate:Datetime, days:Number, comment:String}
+const vacation_list = [] // {username: String, mode:{"half","quarter","full"}, startDate:Datetime, days:Number, comment:String}
 
 class VacationManager {
   constructor() {
   }
 
-  applyVacation(user, mode, startDate = Date.Now(), days = 1, comment = "") {
+  applyVacation(user, req) {
+    var mode = req.body.mode
+    var startdate = req.body.startdate
+    var startdatemillis = (new Date(req.body.startdate)).getMilliseconds()
+    var days = req.body.days
+    var comment = req.body.comment
+    var username = user.name
+    var userjson = accountManager.getUserByName(username)
+    console.log(username)
+    console.log(userjson)
+
     // check if user exists
     if (!user) {
       console.log("applyVacation(): user doesn't exist")
       return false
     }
 
-    username = user.username
-    userjson = accountManager.getUserByName(username)
-
     // check for start date.
-    if (Date.Now() - startDate < 0) {
+    if (dateManager.getTimeMillis() - startdatemillis < 0 &&
+        req.body.startdate !== dateManager.todayISOString()) {
       console.log("applyVacation(): invalid vacation start date")
       return false;
     }
@@ -38,9 +47,9 @@ class VacationManager {
     if (accountManager.decrementRemainingVacation(userjson, days)) {
       vacation_list.push({
         id: Date.now().toString(),
-        usename: username,
+        username: username,
         mode: mode,
-        startDate: startDate,
+        startdate: startdate,
         days: days,
         comment: comment
       })
@@ -67,7 +76,6 @@ class VacationManager {
       return []
     }
     return vacation_list.filter(vacation => vacation.username == user.username)
-
   }
 
   getAllVacations() {

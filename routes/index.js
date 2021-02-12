@@ -9,7 +9,12 @@ router.get('/', auth.redirectOnAuthSuccess, (req, res) => {
 
 // dashboard route
 router.get('/dashboard', auth.redirectOnAuthFail, (req, res) => {
-  res.render('dashboard', {username: req.user.name})
+  res.render('dashboard',
+  {username: req.user.name,
+    userid: req.user.id,
+    useremail: req.user.email,
+    remaining_vacation: req.user.remaining_vacation
+  })
 })
 
 // login route

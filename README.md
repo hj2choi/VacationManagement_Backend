@@ -32,9 +32,9 @@ src
 
 
 ## TODO
-
-
-
+각각 service module. 유닛테스트 작성
+POST api/v1/vacation/new에서 잘못된 입력값 처리는 대부분 front-end에서 막아놓음. back-end단에서도 처리를 했지만, 구멍이 없는지 확인이 필요함. (해킹 위험 있음)
+모든 API에서 제대로 된 HTTP 상태 메세지 전달. https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
 
 
 
@@ -108,8 +108,8 @@ method-override: override API method, allow to use POST from HTML for delete API
 
 
 ## questions:
-are modules (require module) designed in singleton pattern?
-I don't know exact inner-workings of passport. Session is stored in Cookies as encrypted auth token
+are modules (require("module")) designed in singleton pattern?
+I don't know full inner-workings of passport. Session is stored in Cookies as encrypted auth token
 I don't know how salt works exactly. I just know that salt is a random string that doesn't need to be stored in DB
 
 
@@ -118,7 +118,9 @@ I don't know how salt works exactly. I just know that salt is a random string th
 
 
 ## References:
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
 https://www.youtube.com/watch?v=-RCnNyD0L-s&ab_channel=WebDevSimplified
+https://github.com/WebDevSimplified/Mybrary/tree/v1.2
 https://softwareontheroad.com/ideal-nodejs-project-structure/
 
 

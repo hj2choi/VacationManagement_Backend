@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt")
 
-users = []
+const users = []
 
 class AccountManager {
   constructor() {
@@ -19,7 +19,7 @@ class AccountManager {
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword,
-        remaining_vacation: 15
+        remaining_vacation: 15.
       })
       console.log(users)
       return true

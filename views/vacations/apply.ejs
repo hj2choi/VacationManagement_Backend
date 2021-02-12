@@ -1,2 +1,8 @@
 <%- include("../partials/nav.ejs") %>
 <h3>apply for new vacation</h3>
+<form action="/api/v1/vacation/new" method="POST">
+  <%- include('_form_fields') %>
+  <br><br>
+  <button type="submit">Apply for Vacation</button><br>
+  <a href="/dashboard">Cancel</a>
+</form>

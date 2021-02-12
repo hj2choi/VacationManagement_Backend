@@ -1,0 +1,9 @@
+<%- include("../partials/nav.ejs") %>
+<h3>manage my vacations</h3>
+<div>
+  <ul>
+  <% vacations.forEach(vacation => { %>
+    <li>[<%= vacation.startdate %>]: days=<%= vacation.days %>, comment=<%= vacation.comment %></li>
+  <% }) %>
+  </ul>
+</div>
