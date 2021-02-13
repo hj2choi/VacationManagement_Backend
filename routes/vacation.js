@@ -12,20 +12,10 @@ router.get('/', auth.redirectOnAuthFail, (req, res) => {
 
 // manage vacations route
 router.get('/manage', auth.redirectOnAuthFail, async (req, res) => {
-  if (req.user.name === config.ADMIN_USERNAME) {
-    res.render('vacations/manage', {
-      isadmin: true,
-      todayISOString: my_date.todayISOString(),
-      vacations: await vacationManager.getAllVacations(req.user.id)
-    })
-  } else {
-    res.render('vacations/manage', {
-      isadmin: false,
-      todayISOString: my_date.todayISOString(),
-      vacations: await vacationManager.getAllVacations(req.user.id)
-    })
-  }
-
+  res.render('vacations/manage', {
+    todayISOString: my_date.todayISOString(),
+    vacations: await vacationManager.getAllVacations(req.user.id)
+  })
 })
 
 // apply for vacation route

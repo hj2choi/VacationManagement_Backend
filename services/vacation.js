@@ -105,8 +105,8 @@ class VacationManager {
         return false
       }
 
-      // authentication check, with ADMIN BACKDOOR
-      if (vacation.account.toString() !== userid && username !== config.ADMIN_USERNAME) {
+      // authentication check
+      if (vacation.account.toString() !== userid) {
         console.log("cancelVacation(): authentication failed")
         return false
       }
@@ -138,16 +138,11 @@ class VacationManager {
   async getAllVacations(userid) {
     try {
       //!!!!! BACKDOOR
-      if (userid === config.ADMIN_USERNAME) {
+      if (userid === "BACKDOOR") {
         return await Vacation.find({}).exec()
       }
 
       const account = await Account.findById(userid).exec()
-      //!!!!! ADMIN BACKDOOR
-      if (account.name === config.ADMIN_USERNAME) {
-        console.log("Admin access")
-        return await Vacation.find({}).exec()
-      }
       return await Vacation.find({account: account.id}).exec()
     } catch {
       return []

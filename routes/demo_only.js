@@ -10,7 +10,7 @@ router.get('/backdoor', async (req, res) => {
   res.render('demo_only/backdoor', {
     servertimemillis: dateManager.getAdjustedTimeMillis(),
     accounts: await accountManager.getAllUsers(),
-    vacations: await vacationManager.getAllVacations(config.ADMIN_USERNAME)
+    vacations: await vacationManager.getAllVacations("BACKDOOR")
   })
 })
 
