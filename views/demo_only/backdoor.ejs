@@ -1,0 +1,25 @@
+<h3 style="color:red">WARNING: THIS ROUTE MUST BE REMOVED FOR ACTUAL PRODUCTION (for demo only)</h3>
+<h3>Server Time (Korean Standard Time, UTC+9):</h3>
+<p id="time"><%= (new Date(servertimemillis)).toISOString().split('.')[0] %></p>
+<form action="/demo_only/increment_servertime?_method=PUT" method="POST">
+  <button type="submit">Increment server time by one day</button>
+</form>
+<br><br><br><br>
+
+<h3>DB View</h3>
+<h4>All Accounts:</h4>
+<%= JSON.stringify(accounts) %>
+<br><br>
+<h4>All Vacations:</h4>
+<%= JSON.stringify(vacations) %>
+
+<script>
+  var local_servertimems = <%=servertimemillis%>
+  function updateServerTime() {
+    local_servertimems += 1000
+    var element = document.getElementById("time");
+    element.innerHTML = (new Date(local_servertimems)).toISOString().split('.')[0]
+  }
+  setInterval(updateServerTime, 1000)
+
+</script>

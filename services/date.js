@@ -9,7 +9,7 @@ class ServerDateManager {
 
   getAdjustedCurrentTime() {
     var now = new Date(Date.now())
-    now.setMilliseconds(now.getMilliseconds() + timezoneoffset_mins * MUNITE_MILLIS + this.dayoffset * DAY_MILLIS)
+    now.setTime(now.getTime() + timezoneoffset_mins * MUNITE_MILLIS + this.dayoffset * DAY_MILLIS)
     return now
   }
 
@@ -18,8 +18,15 @@ class ServerDateManager {
     return this.getAdjustedCurrentTime().toISOString().split("T")[0]
   }
 
-  getTimeMillis() {
-    return this.getAdjustedCurrentTime().getMilliseconds()
+  yesterdayISOString() {
+    //console.log(this.getAdjustedCurrentTime().toISOString())
+    var dateobj = this.getAdjustedCurrentTime()
+    dateobj.setDate(dateobj.getDate() - 1)
+    return dateobj.toISOString().split("T")[0]
+  }
+
+  getAdjustedTimeMillis() {
+    return this.getAdjustedCurrentTime().getTime()
   }
 
   incrementDay() {

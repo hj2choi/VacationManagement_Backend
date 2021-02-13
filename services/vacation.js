@@ -2,7 +2,7 @@ const accountManager = require("./account")
 const dateManager = require("./date")
 const config = require("../config/config")
 
-const vacation_list = [] // {username: String, mode:{"half","quarter","full"}, startDate:Datetime, days:Number, comment:String}
+var vacation_list = [] // {username: String, mode:{"half","quarter","full"}, startDate:Datetime, days:Number, comment:String}
 
 class VacationManager {
   constructor() {
@@ -11,7 +11,7 @@ class VacationManager {
   applyVacation(user, req) {
     var mode = req.body.mode
     var startdate = req.body.startdate
-    var startdatemillis = (new Date(req.body.startdate)).getMilliseconds()
+    var startdatemillis = (new Date(req.body.startdate)).getTime()
     var days = req.body.days
     var comment = req.body.comment
     var username = user.name
@@ -24,7 +24,7 @@ class VacationManager {
     }
 
     // check for start date.
-    if (dateManager.getTimeMillis() - startdatemillis < 0 &&
+    if (startdatemillis - dateManager.getAdjustedTimeMillis() < 0 &&
         req.body.startdate !== dateManager.todayISOString()) {
       console.log("applyVacation(): invalid vacation start date")
       return false;
@@ -91,7 +91,7 @@ class VacationManager {
     // remove vacation with requested id
     const index = vacation_list.findIndex((vacation) => vacation.id === id)
     if (index > -1) {
-      // authentication check
+      // authentication check, with ADMIN BACKDOOR
       if (vacation_list[index].username !== username && user.name !== config.ADMIN_USERNAME) {
         console.log("cancelVacation(): authentication failed")
         return false
@@ -116,6 +116,22 @@ class VacationManager {
       return vacation_list
     }
     return vacation_list.filter(vacation => vacation.username == user.name)
+  }
+
+  // Batch processing
+  clearAndUpdateAllVacation() {
+    vacation_list = vacation_list.filter(vacation =>
+                    (dateManager.getAdjustedCurrentTime() < new Date(vacation.startdate))
+                    || (1 < vacation.days))
+
+    for (var i = 0; i < vacation_list.length; ++i) {
+      if (dateManager.yesterdayISOString() === vacation_list[i].startdate && vacation_list[i].days > 1) {
+        var newdateobj = new Date(Date.parse(vacation_list[i].startdate))
+        newdateobj.setDate(newdateobj.getDate() + 1)
+        vacation_list[i].startdate = newdateobj.toISOString().split("T")[0]
+        vacation_list[i].days -= 1
+      }
+    }
   }
 
 }

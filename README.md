@@ -33,6 +33,7 @@ src
 
 
 ## TODO
+cannot cancel today's vacation
 migrate all to DB
 
 
@@ -52,13 +53,17 @@ reset remaining vacation days to 15 at the start of every year
 
 
 ## ISSUES and further Action Items
-유저 확인 로직을 좀더 정석적으로 username 대신 unique ID로 비교. 혹은, 더 secure한 방법이 있는지 확인 필요.
-각각  Dependency Injection & IOC? 사용 (예: Service Module이 직접 dependencies를 import하는 대신에 밖에서 constructor에 parameter 형태로 주입)
+[Major issues]
+Dependency Hell 해결 필요: 각각 service 모듈에 Dependency Injection & IOC? 사용 (예: Service Module이 직접 dependencies를 import하는 대신에 밖에서 constructor에 parameter 형태로 주입)
 각각 service module에 대해 유닛테스트 작성
-POST api/v1/vacation/new에서 잘못된 입력값 처리는 대부분 front-end에서 막아놓음. back-end단에서도 처리를 했지만, 구멍이 없는지 체계적으로 확인이 필요함.
+모든 API에서 제대로 규격화 된 HTTP 상태코드, 그리고 에러 메세지 전달. https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+Dashboard, manageVacation 등의 페이지를 로딩할 때, controller에서 바로 데이터를 보내는 대신, GET api/v1/account/hjchoi, GET api/v1/vacations/all 같은 GET API를 따로 작성하는게 깔끔할것 같음.
+
+[Minor issues]
+유저 확인 로직을 좀더 정석적으로 username 대신 unique ID로 비교. 혹은, 더 secure한 방법이 있는지 확인 필요.
+POST api/v1/vacation/new에서 잘못된 입력값 처리는 대부분 front-end에서 막아놓음. back-end단에서도 처리를 했지만, 구멍이 없는지 좀 더 체계적으로 확인이 필요함.
 services/vacation 모델에서 겹치는 날짜 체크하는 로직에 대한 최적화 가능한지 확인.
-모든 API에서 제대로 된 HTTP 상태코드, 그리고 에러 메세지 전달. https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-[minor] change var to const for immutable stuff
+change var to const for immutable stuff
 
 
 
