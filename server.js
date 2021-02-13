@@ -12,8 +12,11 @@ const session = require("express-session")
 const passport = require("passport")
 const methodOverride = require('method-override')
 
+const initializeScheduler = require("./services/scheduler")
+initializeScheduler()
+
 const initializePassport = require("./config/passport_config")
-initializePassport();
+initializePassport()
 
 app.set("view engine", "ejs")
 app.set("views", __dirname + "/views")

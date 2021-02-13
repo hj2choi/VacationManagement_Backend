@@ -1,4 +1,4 @@
-const timezoneoffset_mins = require("../config/config.json").TIMEZONEOFFSET_MINS
+const TIMEZONEOFFSET = (new Date()).getTimezoneOffset()
 const MUNITE_MILLIS = 60000
 const DAY_MILLIS = 86400000
 
@@ -9,7 +9,7 @@ class ServerDateManager {
 
   getAdjustedCurrentTime() {
     var now = new Date(Date.now())
-    now.setTime(now.getTime() + timezoneoffset_mins * MUNITE_MILLIS + this.dayoffset * DAY_MILLIS)
+    now.setTime(now.getTime() - TIMEZONEOFFSET * MUNITE_MILLIS + this.dayoffset * DAY_MILLIS)
     return now
   }
 

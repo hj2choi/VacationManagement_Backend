@@ -35,12 +35,6 @@ src
 ## TODO
 migrate all to DB
 
-
-use cron job to remove all outdated vacations
-
-
-
-
 [optional] vacation start date -> end date by excluding public holidays
 [optional]
 respond with proper HTML status code and error message (with livelogger lib)
@@ -129,7 +123,7 @@ passport-local: authentication library for local login/register system
 express-session: manages authentication token (temporary token with timeout variable. Used for keeping account alive through different pages)
 express-flash: displays pretty authentication messages. Internally used by passport.
 method-override: override API method, allow to use POST from HTML for delete API
-
+cron: job scheduler
 
 
 
