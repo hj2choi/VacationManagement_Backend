@@ -2,13 +2,13 @@
 <h3>manage my vacations</h3>
 <div>
   <ul>
-  <% vacations = vacations.sort((a, b) => (new Date(a.startdate)) - (new Date(b.startdate))) // @TODO: optimize overhead (new operation)%>
+  <% vacations = vacations.sort((a, b) => a.startdate - b.startdate) %>
   <% vacations.forEach(vacation => { %>
     <% var mode = {quarter: "반반차", half: "_반차", full: "_연차"}[vacation.mode] %>
     <li>
       <b>
-        <% if (isadmin) { %> <%= vacation.username %>: <% } %>
-        <%= mode %> [<%= vacation.startdate %>]
+        <% if (isadmin) { %> <%= vacation.id %>: <% } %>
+        <%= mode %> [<%= vacation.startdate.toISOString().split("T")[0] %>]
         <% if (vacation.mode === "full" && vacation.days > 1) {%>
           <% var enddate = new Date(vacation.startdate) %>
           <% enddate.setDate(enddate.getDate() + vacation.days - 1) %>

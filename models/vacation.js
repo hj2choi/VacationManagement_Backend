@@ -1,11 +1,7 @@
 const mongoose = require("mongoose")
 
 const vacationSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true
-  },
-  user: {
+  account: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "Account"

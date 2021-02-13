@@ -2,10 +2,6 @@ const mongoose = require("mongoose")
 const config = require("../config/config")
 
 const accountSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true
-  },
   name: {
     type: String,
     required: true
