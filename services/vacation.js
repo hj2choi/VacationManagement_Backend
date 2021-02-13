@@ -1,6 +1,8 @@
 const accountManager = require("./account")
 const dateManager = require("./date")
 const config = require("../config/config")
+const Account = require("../models/account")
+const Vacation = require("../models/vacation")
 
 var vacation_list = [] // {username: String, mode:{"half","quarter","full"}, startDate:Datetime, days:Number, comment:String}
 

@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt")
 const config = require("../config/config")
+const Account = require("../models/account")
 
 const users = []
 
