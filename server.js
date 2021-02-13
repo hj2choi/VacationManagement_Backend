@@ -34,13 +34,15 @@ app.use(methodOverride('_method'))
 
 const indexRouter = require("./routes/index")
 const vacationRouter = require("./routes/vacation")
-const demoOnlyRouter = require("./routes/demo_only")
 const api_accountRouter = require("./routes/api/v1/account")
 const api_vacationRouter = require("./routes/api/v1/vacation")
+const demoOnlyRouter = require("./routes/demo_only")
 app.use("/", indexRouter)
 app.use("/vacation", vacationRouter)
-app.use("/demo_only", demoOnlyRouter)
 app.use("/api/v1/account", api_accountRouter)
 app.use("/api/v1/vacation", api_vacationRouter)
+if (config.ENABLE_DEMO_ROUTES) {
+  app.use("/demo_only", demoOnlyRouter)
+}
 
 app.listen(process.env.PORT || config.DEV_PORT)

@@ -33,7 +33,6 @@ src
 
 
 ## TODO
-cannot cancel today's vacation
 migrate all to DB
 
 
@@ -42,11 +41,9 @@ use cron job to remove all outdated vacations
 
 
 
-[optional] vacation start date -> end date
+[optional] vacation start date -> end date by excluding public holidays
 [optional]
-create api to increment server date
-respond with proper HTML status code and error message
-reset remaining vacation days to 15 at the start of every year
+respond with proper HTML status code and error message (with livelogger lib)
 
 
 

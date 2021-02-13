@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt")
+const config = require("../config/config")
 
 const users = []
 
@@ -19,7 +20,7 @@ class AccountManager {
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword,
-        remaining_vacation: 15.
+        remaining_vacation: config.YEARLY_VACATION_DAYS
       })
       return true
     } catch (e) {
@@ -71,6 +72,13 @@ class AccountManager {
 
   getAllUsers() {
     return users
+  }
+
+  // Batch processing
+  resetAllUserRemainingVacation() {
+    for (var i = 0; i < users.length; ++i) {
+      users[i].remaining_vacation = config.YEARLY_VACATION_DAYS
+    }
   }
 
   //@TODO: MVC의 Model 파트에서 res object를 직접 처리하는건 좋은 디자인이 아닙니다.
