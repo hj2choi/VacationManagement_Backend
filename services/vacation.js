@@ -88,6 +88,9 @@ class VacationManager {
       return false
     }
 
+
+
+
     // remove vacation with requested id
     const index = vacation_list.findIndex((vacation) => vacation.id === id)
     if (index > -1) {
@@ -96,10 +99,18 @@ class VacationManager {
         console.log("cancelVacation(): authentication failed")
         return false
       }
+
+      // cannot remove vacation that's already started
+      if (vacation_list[index].startdate === dateManager.todayISOString()) {
+        console.log("cancelVacation(): cannot cancel vacation that's already started")
+        return false
+      }
+
       accountManager.incrementRemainingVacation(userjson, vacation_list[index].days)
       vacation_list.splice(index, 1)
+      return true
     }
-    return true
+    return false
   }
 
   getVacationById(id) {

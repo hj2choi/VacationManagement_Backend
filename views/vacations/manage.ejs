@@ -15,7 +15,7 @@
       comment: <%= vacation.comment %><br>
       <form action="/api/v1/vacation/cancel?_method=DELETE" method="POST">
         <input type="hidden" id="id" name="id" value="<%= vacation.id %>">
-        <button type="submit">Cancel Vacation</button>
+        <button type="submit" <% if (vacation.startdate === todayISOString) { %> disabled <% } %>>Cancel Vacation</button>
       </form>
     </li><br>
   <% }) %>

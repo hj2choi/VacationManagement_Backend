@@ -11,7 +11,10 @@ router.get('/', auth.redirectOnAuthFail, (req, res) => {
 
 // manage vacations route
 router.get('/manage', auth.redirectOnAuthFail, (req, res) => {
-  res.render('vacations/manage', {vacations: vacationManager.getAllVacations(req.user)})
+  res.render('vacations/manage', {
+    todayISOString: my_date.todayISOString(),
+    vacations: vacationManager.getAllVacations(req.user)
+  })
 })
 
 // apply for vacation route

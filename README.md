@@ -60,6 +60,7 @@ Dependency Hell 해결 필요: 각각 service 모듈에 Dependency Injection & I
 Dashboard, manageVacation 등의 페이지를 로딩할 때, controller에서 바로 데이터를 보내는 대신, GET api/v1/account/hjchoi, GET api/v1/vacations/all 같은 GET API를 따로 작성하는게 깔끔할것 같음.
 
 [Minor issues]
+Date() 객체에 대해 제대로 파악하면 날짜 계산 로직 좀 더 간결하게 바꿀 수 있을듯. (특히 Date()객체 operator override 적극적으로 사용)
 유저 확인 로직을 좀더 정석적으로 username 대신 unique ID로 비교. 혹은, 더 secure한 방법이 있는지 확인 필요.
 POST api/v1/vacation/new에서 잘못된 입력값 처리는 대부분 front-end에서 막아놓음. back-end단에서도 처리를 했지만, 구멍이 없는지 좀 더 체계적으로 확인이 필요함.
 services/vacation 모델에서 겹치는 날짜 체크하는 로직에 대한 최적화 가능한지 확인.
