@@ -1,5 +1,6 @@
 const accountManager = require("./account")
 const dateManager = require("./date")
+const config = require("../config/config")
 
 const vacation_list = [] // {username: String, mode:{"half","quarter","full"}, startDate:Datetime, days:Number, comment:String}
 
@@ -87,16 +88,14 @@ class VacationManager {
   getAllVacations(user) {
     // check if user exists
     if (!user) {
-      console.log("getAllVacations(): user doesn't exist")
       return []
     }
-    return vacation_list.filter(vacation => vacation.username == user.username)
+    //!!!!! ADMIN BACKDOOR
+    if (user.name == config.ADMIN_USERNAME) {
+      return vacation_list
+    }
+    return vacation_list.filter(vacation => vacation.username == user.name)
   }
-
-  getAllVacations() {
-    return vacation_list
-  }
-
 
 }
 
