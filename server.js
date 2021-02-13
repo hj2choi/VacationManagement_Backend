@@ -18,6 +18,16 @@ initializeScheduler()
 const initializePassport = require("./config/passport_config")
 initializePassport()
 
+const mongoose = require("mongoose")
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+const db = mongoose.connection
+db.on("error", error => console.error(error))
+db.once("open", () => console.log("Connected to Mongoose"))
+
+
 app.set("view engine", "ejs")
 app.set("views", __dirname + "/views")
 app.set("layout", "layouts/layout") // hook up express layouts, every single file will be put inside the layout file ex) beggining HTML, ending HTML, header, footer, etc

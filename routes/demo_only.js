@@ -17,7 +17,17 @@ router.get('/backdoor', (req, res) => {
 // increment server time by day
 router.put('/increment_servertime', (req, res) => {
   dateManager.incrementDay()
+
   vacationManager.clearAndUpdateAllVacation()
+
+  const firstdayofyear = new Date()
+  firstdayofyear.setMonth(0)
+  firstdayofyear.setDate(1)
+  console.log(firstdayofyear.toISOString().split("T")[0])
+  if (dateManager.todayISOString() === firstdayofyear.toISOString().split("T")[0]) {
+    accountManager.resetAllUserRemainingVacation()
+  }
+
   res.redirect("/demo_only/backdoor")
 })
 
