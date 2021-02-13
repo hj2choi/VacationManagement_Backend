@@ -2,9 +2,22 @@
 <h3>manage my vacations</h3>
 <div>
   <ul>
-  <% vacations = vacations.sort((a, b) => (new Date(a.startdate)) - (new Date(b.startdate))) // @TODO: optimize overhead %>
+  <% vacations = vacations.sort((a, b) => (new Date(a.startdate)) - (new Date(b.startdate))) // @TODO: optimize overhead (new operation)%>
   <% vacations.forEach(vacation => { %>
-    <li>[<%= vacation.startdate %>]: days=<%= vacation.days %>, comment=<%= vacation.comment %></li>
+    <% var mode = {quarter: "반반차", half: "_반차", full: "_연차"}[vacation.mode] %>
+    <li>
+      <b><%= mode %> [<%= vacation.startdate %>]
+      <% if (vacation.mode === "full" && vacation.days > 1) {%>
+        <% var enddate = new Date(vacation.startdate) %>
+        <% enddate.setDate(enddate.getDate() + vacation.days - 1) %>
+        ~ [<%= enddate.toISOString().split("T")[0] %>]
+      <%}%></b><br>
+      comment: <%= vacation.comment %><br>
+      <form action="/api/v1/vacation/cancel?_method=DELETE" method="POST">
+        <input type="hidden" id="id" name="id" value="<%= vacation.id %>">
+        <button type="submit">Cancel Vacation</button>
+      </form>
+    </li><br>
   <% }) %>
   </ul>
 </div>

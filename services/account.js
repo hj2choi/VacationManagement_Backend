@@ -64,6 +64,11 @@ class AccountManager {
     }
   }
 
+  incrementRemainingVacation(user, days) {
+    user.remaining_vacation += days
+    return true
+  }
+
   getAllUsers() {
     return users
   }

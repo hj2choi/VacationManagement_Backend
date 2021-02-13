@@ -50,7 +50,7 @@ class VacationManager {
       for (var j = 0; j < Math.ceil(existing_dates[i].days); ++j) {
         var startdate_obj = new Date(Date.parse(startdate))
         for (var k = 0; k < Math.ceil(days); ++k) {
-          console.log(toisostring(startdate_obj)+" vs "+toisostring(existingdate_obj))
+          //console.log(toisostring(startdate_obj)+" vs "+toisostring(existingdate_obj))
           if (toisostring(startdate_obj) === toisostring(existingdate_obj)) {
             console.log("applyVacation(): overlapping vacation dates")
             return false;
@@ -77,8 +77,29 @@ class VacationManager {
     return false
   }
 
-  cancelVacation(user, vacation_id) {
+  cancelVacation(user, req) {
+    var id = req.body.id
+    var username = user.name
+    var userjson = accountManager.getUserByName(username)
 
+    // check if user exists
+    if (!user) {
+      console.log("applyVacation(): user doesn't exist")
+      return false
+    }
+
+    // remove vacation with requested id
+    const index = vacation_list.findIndex((vacation) => vacation.id === id)
+    if (index > -1) {
+      // authentication check
+      if (vacation_list[index].username !== username) {
+        console.log("cancelVacation(): authentication failed")
+        return false
+      }
+      accountManager.incrementRemainingVacation(userjson, vacation_list[index].days)
+      vacation_list.splice(index, 1)
+    }
+    return true
   }
 
   getVacationById(id) {

@@ -14,4 +14,13 @@ router.post("/new", auth.redirectOnAuthFail, async function(req, res) {
   }
 });
 
+// delete vacation with ID
+router.delete("/cancel", auth.redirectOnAuthFail, async function(req, res) {
+  if (vacationManager.cancelVacation(req.user, req)) {
+    res.redirect("/vacation")
+  } else {
+    res.redirect("/vacation")
+  }
+});
+
 module.exports = router
