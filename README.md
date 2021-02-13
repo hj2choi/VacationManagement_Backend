@@ -44,7 +44,6 @@ use cron job to remove all outdated vacations
 [optional] vacation start date -> end date
 [optional]
 create api to increment server date
-create admin user
 respond with proper HTML status code and error message
 reset remaining vacation days to 15 at the start of every year
 

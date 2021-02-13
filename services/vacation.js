@@ -92,7 +92,7 @@ class VacationManager {
     const index = vacation_list.findIndex((vacation) => vacation.id === id)
     if (index > -1) {
       // authentication check
-      if (vacation_list[index].username !== username) {
+      if (vacation_list[index].username !== username && user.name !== config.ADMIN_USERNAME) {
         console.log("cancelVacation(): authentication failed")
         return false
       }
@@ -112,7 +112,7 @@ class VacationManager {
       return []
     }
     //!!!!! ADMIN BACKDOOR
-    if (user.name == config.ADMIN_USERNAME) {
+    if (user.name === config.ADMIN_USERNAME) {
       return vacation_list
     }
     return vacation_list.filter(vacation => vacation.username == user.name)
