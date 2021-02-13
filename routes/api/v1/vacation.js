@@ -7,8 +7,6 @@ const vacationManager = require("../../../services/vacation.js")
 
 // add new vacation
 router.post("/new", auth.redirectOnAuthFail, async function(req, res) {
-  console.log("api/v1/vacation/new")
-  console.log(req.body)
   if (vacationManager.applyVacation(req.user, req)) {
     res.redirect("/vacation")
   } else {

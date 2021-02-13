@@ -15,8 +15,6 @@ class VacationManager {
     var comment = req.body.comment
     var username = user.name
     var userjson = accountManager.getUserByName(username)
-    console.log(username)
-    console.log(userjson)
 
     // check if user exists
     if (!user) {
@@ -43,6 +41,25 @@ class VacationManager {
       return false
     }
 
+    // check for overlapping dates. @TODO optimize this routine
+    var toisostring = (date) => date.toISOString().split("T")[0]
+    var existing_dates = this.getAllVacations(user)
+    for (var i = 0; i < existing_dates.length; ++i) {
+      var existingdate_obj = new Date(Date.parse(existing_dates[i].startdate))
+      for (var j = 0; j < Math.ceil(existing_dates[i].days); ++j) {
+        var startdate_obj = new Date(Date.parse(startdate))
+        for (var k = 0; k < Math.ceil(days); ++k) {
+          console.log(toisostring(startdate_obj)+" vs "+toisostring(existingdate_obj))
+          if (toisostring(startdate_obj) === toisostring(existingdate_obj)) {
+            console.log("applyVacation(): overlapping vacation dates")
+            return false;
+          }
+          startdate_obj.setDate(startdate_obj.getDate()+1)
+        }
+        existingdate_obj.setDate(existingdate_obj.getDate()+1)
+      }
+    }
+
     // after validating every single fields, update user information and add new vacation to database.
     if (accountManager.decrementRemainingVacation(userjson, days)) {
       vacation_list.push({
@@ -53,8 +70,6 @@ class VacationManager {
         days: days,
         comment: comment
       })
-      console.log(vacation_list)
-      console.log(accountManager.getAllUsers())
       return true
     }
     console.log("applyVacation(): not enough remaining vacation dates")

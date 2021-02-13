@@ -21,7 +21,6 @@ class AccountManager {
         password: hashedPassword,
         remaining_vacation: 15.
       })
-      console.log(users)
       return true
     } catch (e) {
       console.log(e)
@@ -61,7 +60,6 @@ class AccountManager {
     }
     else {
       user.remaining_vacation -= days
-      console.log(users)
       return true
     }
   }

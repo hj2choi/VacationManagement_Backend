@@ -2,6 +2,7 @@
 <h3>manage my vacations</h3>
 <div>
   <ul>
+  <% vacations = vacations.sort((a, b) => (new Date(a.startdate)) - (new Date(b.startdate))) // @TODO: optimize overhead %>
   <% vacations.forEach(vacation => { %>
     <li>[<%= vacation.startdate %>]: days=<%= vacation.days %>, comment=<%= vacation.comment %></li>
   <% }) %>
