@@ -1,4 +1,4 @@
-<%- include("partials/nav.ejs") %>
+<%- include("../partials/nav.ejs") %>
 <h2><%=username%>'s dashboard</h2>
 <b> [<span style="color:blue"><%=remaining_vacation%></span> / <%= yearly_vacation_days %>] </b> vacation days remaining
 <br><br>
@@ -7,3 +7,14 @@
 <b>UserID: </b> <%=userid%><br>
 <b>Username: </b> <%=username%><br>
 <b>Email: </b> <%=useremail%><br>
+
+<br><br>
+<h3>users on leave today (오늘 휴가 나간 사람 목록)</h3>
+<ul>
+<% on_vacation_users.forEach(user => { %>
+  <li>
+    <%= user.name %>
+    <a href="/account/<%= user.id %>">(view profile)</a>
+  </li>
+<% }) %>
+</ul>

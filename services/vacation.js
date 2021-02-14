@@ -4,6 +4,8 @@ const config = require("../config/config")
 const Account = require("../models/account")
 const Vacation = require("../models/vacation")
 
+const DAY_MILLIS = 86400000
+
 class VacationManager {
   constructor() {
   }
@@ -60,9 +62,9 @@ class VacationManager {
               console.log("applyVacation(): overlapping vacation dates")
               return false;
             }
-            startdate_obj.setDate(startdate_obj.getDate()+1)
+            startdate_obj.setTime(dateobj.getTime() - DAY_MILLIS)
           }
-          existingdate_obj.setDate(existingdate_obj.getDate()+1)
+          existingdate_obj.setTime(dateobj.getTime() - DAY_MILLIS)
         }
       }
 
@@ -158,7 +160,7 @@ class VacationManager {
     await Vacation.updateMany({ startdate: {$eq: dateManager.yesterdayISOString()},
                                 days: {$gt: 1}
                               },
-                              [{$set: {startdate: {$add: ["$startdate", 86400000]}, days: {$add: ["$days", -1]}}
+                              [{$set: {startdate: {$add: ["$startdate", DAY_MILLIS]}, days: {$add: ["$days", -1]}}
                               }]).exec()
   }
 

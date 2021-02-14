@@ -1,3 +1,12 @@
 <a href="/login">login</a>
 <a href="/register">register</a>
 <br><br><br>
+<h3>users on leave today (오늘 휴가 나간 사람 목록)</h3>
+<ul>
+<% on_vacation_users.forEach(user => { %>
+  <li>
+    <%= user.name %>
+    <a href="/account/<%= user.id %>">(view profile)</a>
+  </li>
+<% }) %>
+</ul>

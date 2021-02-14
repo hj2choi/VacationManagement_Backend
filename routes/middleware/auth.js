@@ -10,5 +10,5 @@ module.exports = module.exports = {
         return res.redirect('/dashboard')
       }
       next()
-    },
+    }
 }

@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt")
 const config = require("../config/config")
 const Account = require("../models/account")
+const Vacation = require("../models/vacation")
+const dateManager = require("./date")
 
 class AccountManager {
   constructor() {
@@ -89,7 +91,25 @@ class AccountManager {
     try {
       return await Account.find({}).exec()
     } catch {
-      return null
+      return []
+    }
+  }
+
+  async getUsersCurrentlyOnVacation() {
+    try {
+      const today_vacations = await Vacation.find({startdate: {
+                                                $gte: dateManager.getEndOfYesterday(),
+                                                $lte: dateManager.getEndOfToday()
+                                              }
+                                            }).select("account").exec()
+      var query_ids = []
+      for (var i = 0; i < today_vacations.length; ++i) {
+        query_ids.push(today_vacations[i].account)
+      }
+      return await Account.find({"_id": { $in: query_ids}}).select("name")
+    } catch (e) {
+      console.log(e)
+      return []
     }
   }
 

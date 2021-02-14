@@ -13,6 +13,25 @@ class ServerDateManager {
     return now
   }
 
+  getEndOfYesterday() {
+    var now = new Date(Date.now())
+    now.setTime(now.getTime() - DAY_MILLIS)
+    now.setHours(23)
+    now.setMinutes(59)
+    now.setSeconds(59)
+    now.setTime(now.getTime() - TIMEZONEOFFSET * MUNITE_MILLIS + this.dayoffset * DAY_MILLIS)
+    return now
+  }
+
+  getEndOfToday() {
+    var now = new Date(Date.now())
+    now.setHours(23)
+    now.setMinutes(59)
+    now.setSeconds(59)
+    now.setTime(now.getTime() - TIMEZONEOFFSET * MUNITE_MILLIS + this.dayoffset * DAY_MILLIS)
+    return now
+  }
+
   todayISOString() {
     //console.log(this.getAdjustedCurrentTime().toISOString())
     return this.getAdjustedCurrentTime().toISOString().split("T")[0]
@@ -21,7 +40,7 @@ class ServerDateManager {
   yesterdayISOString() {
     //console.log(this.getAdjustedCurrentTime().toISOString())
     var dateobj = this.getAdjustedCurrentTime()
-    dateobj.setDate(dateobj.getDate() - 1)
+    dateobj.setTime(dateobj.getTime() - DAY_MILLIS)
     return dateobj.toISOString().split("T")[0]
   }
 

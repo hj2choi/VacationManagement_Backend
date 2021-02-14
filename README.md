@@ -39,8 +39,10 @@ src<br>
 ### Account
 | TYPE  | HTTP ENDPOINT | REQUSET | RESPONSE | REMARKS |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| GET  | /api/v1/account/[id]  | - | single account JSON | |
-| GET  | /api/v1/account/name/[name]  | - | single account JSON| |
+| GET  | /api/v1/account/all  | - | all accounts JSON | |
+| GET  | /api/v1/account/all/on_vacation  | - | all accounts currently on vacation| |
+| GET  | /api/v1/account/[id]  | - | single account JSON | unused |
+| GET  | /api/v1/account/name/[name]  | - | single account JSON| unused |
 | POST  | /api/v1/account/login  | name, password | authentication token | |
 | POST  | /api/v1/account/register  | name, email, password | - | |
 | DELETE  | /api/v1/account/logout  | authentication token | - | |
@@ -48,7 +50,7 @@ src<br>
 ### Vacation
 | TYPE  | HTTP ENDPOINT | REQUSET | RESPONSE | REMARKS |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| GET  | /api/v1/vacation/[id]  | - | vacation | |
+| GET  | /api/v1/vacation/[id]  | - | vacation | unused |
 | GET  | /api/v1/vacation/user/[id]  | - | list of vacations |  |
 | POST  | /api/v1/vacation/new  | mode, startdate, days, comment, auth | - | |
 | DELETE  | /api/v1/vacation/cancel  | id | - | |
