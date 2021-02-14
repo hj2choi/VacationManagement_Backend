@@ -22,7 +22,7 @@
 <b>/demo_only/backdoor/</b><br>
 여기에 들어가서 서버 내부 시간을 빨리감기 하며 테스트 할 수 있습니다.<br>
 모든 사용자의 연차 일수를 초기화 시킬 수 있습니다.<br>
-또한, raw 데이터베이스 정보를 볼 수 있습니다.<br>
+또한, raw 데이터베이스 정보를 전부 볼 수 있습니다.<br>
 
 
 ## Project Structure
@@ -40,7 +40,7 @@ src<br>
 ### Account
 | TYPE  | HTTP ENDPOINT URI | REQUSET | RESPONSE | REMARKS |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| GET  | /api/v1/account/all  | - | all accounts JSON | |
+| GET  | /api/v1/account/all  | - | all accounts JSON | unused |
 | GET  | /api/v1/account/all/on_vacation  | - | all accounts currently on vacation| |
 | GET  | /api/v1/account/[id]  | - | single account JSON | unused |
 | GET  | /api/v1/account/name/[name]  | - | single account JSON| unused |
@@ -52,7 +52,7 @@ src<br>
 | TYPE  | HTTP ENDPOINT URI | REQUSET | RESPONSE | REMARKS |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | GET  | /api/v1/vacation/[id]  | - | vacation | unused |
-| GET  | /api/v1/vacation/user/[id]  | - | list of vacations |  |
+| GET  | /api/v1/vacation/user/[id]  | - | list of vacations |  unused |
 | POST  | /api/v1/vacation/new  | mode, startdate, days, comment, auth | - | |
 | DELETE  | /api/v1/vacation/cancel  | id, authentication token | - | |
 
@@ -70,24 +70,25 @@ src<br>
 - 논리적인 결함: 연차 횟수를 내년까지 이월 가능함. 연차를 내년 일자로 신청하지 못하게 바꿔야함.
 
 <b>[Minor issues]</b><br>
-- Dashboard, manageVacation 등의 페이지를 로딩할 때, controller에서 바로 데이터를 보내는 대신, GET api/v1/account/hjchoi, GET api/v1/vacations/all 같은 GET API를 따로 작성하는게 속도는 느리지만 코드는 깔끔할것 같음.<br>
+- Dashboard, manageVacation 등의 페이지를 로딩할 때, controller에서 바로 데이터를 보내는 대신, GET api/v1/account/hjchoi, GET api/v1/vacations/all 같은 GET API에서 따로 데이터를 불러오게 하는게 속도는 느리지만 코드는 깔끔할것 같음.<br>
 - async-await에서 try-catch 블록을 제대로 가져다가 붙여야함. (service단에서는 그저 throw만 하고 controller에 try catch 넣는게 더 깔끔하다는 얘기가 있음, 혹은 Express()가 알아서 예외처리해주길 기다리는것도 방법...)<br>
 - /vacation 모델에서 겹치는 날짜 체크하는 로직에 대한 최적화 가능한지 확인.
-- 잠재적인 결함: 서버가 지속적으로 실행이 되지 않는 환경일 경우: 시간이 지난 vacation (days>1) 이 자동으로 삭제되지 않는 경우가 생김.<br><br>
+- 잠재적인 결함: 서버가 지속적으로 실행이 되지 않는 환경일 경우: 철 지난 vacation (days>1) 이 자동으로 삭제되지 않음.<br><br>
+- Username, Password에 대해 길이제한 등 걸어야함.
 
 <b>[TODO]</b><br>
 - 연차를 소모한 이후에 DB에서 삭제하는 대신 History로 남겨두게끔 수정
 - 각각 service module에 대해 유닛테스트 작성
 - ADMIN 계정 다시 생성 후 admin route 작성
-- Google Calendar API 사용해서 공휴일 정보 받아오기. 그 후, 시작일, 종료일을 가지고 공휴일을 제외하고 계산해보기.
+- Google Calendar API 사용해서 공휴일 정보 받아오기. 그 후, 시작일, 종료일을 가지고 공휴일+주말을 제외하고 계산해보기.
 
 
 
 
 
 ## 기술적인 궁금점
-- [passport] 완전한 구조를 아직 이해하지 못함. Session is stored in Cookies as encrypted auth token<br>
-- [Salt] Salt값을 직접 다뤄본 적이 없어서 개념을 잘 모르겠음. I just know that salt is a random string that doesn't need to be stored in DB<br>
+- [passport] 구조를 아직 완전히 파악하지 못함. Session is stored in Cookies as encrypted auth token<br>
+- [Salt] Salt값을 직접 다뤄본 적이 없어서 왜 salt가 DB에 저장될 필요가 없는지 모르겠음. <br>
 - [네트워크 보안] HTTPS 대신 HTTP를 사용하면 password나 authentication token같은 민감한 정보들이 그대로 네트워크에 노출이 되는게 맞는지 확인하고 싶음.
 - [대용량 트래픽, 대규모 유저 시스템] 요새는 AWS가 다 해준다고는 하지만, 대용량 트래픽과 storage를 다룰 때 어떻게 load-balancing & distribution이 되는지 궁금함.
 - [대용량 트래픽, 대규모 유저 시스템] CD/CI (Continuous Deployment & Continuous Integration)
@@ -95,7 +96,7 @@ src<br>
 - [Concurrency] javascript async 함수들이 언어 내부적으로 정확히 어떻게 구현되어있는지 궁금함. (C로 짠다면 어떻게 구현할까? main event loop? event listeners? job scheduling?)
 
 
-## 기술적 디데일 정리노트
+## 기술적 디테일 정리노트
 #### node.js
 operates on a single thread, using non-blocking I/O calls, allowing it to support thousands of simultaneous connections.<br>
 this makes nodejs extremely scalable and adaptable to any number of modules or user load.<br>

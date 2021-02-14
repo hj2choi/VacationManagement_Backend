@@ -4,6 +4,7 @@ const auth = require("./middleware/auth.js")
 const config = require("../config/config")
 const accountManager = require("../services/account.js")
 
+// @TODO what is this messy code. Refactor it.
 router.get("/:account_id", async function(req, res) {
   try {
     const user = await accountManager.getUserById(req.params.account_id)

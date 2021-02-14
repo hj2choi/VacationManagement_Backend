@@ -35,17 +35,17 @@ router.post("/login", auth.redirectOnAuthSuccess, passport.authenticate("local",
 // register new user
 router.post("/register", auth.redirectOnAuthSuccess, async function(req, res) {
   if (await accountManager.registerUser(req)) {
-    res.redirect("/account/login")
+    res.redirect("/login")
   }
   else {
-    res.redirect("/account/register/?error="+"username already exists")
+    res.redirect("/register/?error="+"username already exists")
   }
 });
 
 // logout and destroy current session
 router.delete("/logout", function(req, res) {
   req.logOut()
-  res.redirect("/account/login")
+  res.redirect("/login")
 })
 
 module.exports = router

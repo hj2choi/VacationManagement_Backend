@@ -15,7 +15,8 @@ class AccountManager {
         return false
       }
 
-      const hashedPassword = await bcrypt.hash(req.body.password, 10); // await: causes async function execution to pause until a Promise is settled.
+      // await: causes async function execution to pause until a Promise is settled.
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const account = new Account({
         name: req.body.name,
         email: req.body.email,
@@ -121,7 +122,7 @@ class AccountManager {
     }
   }
 
-  //@TODO: MVC의 Model 파트에서 res object를 직접 처리하는건 좋은 디자인이 아닙니다.
+  //@TODO: MVC의 Model 파트에서 res object를 직접 처리하는건 좋은 디자인이 아닌걸로 알고 있습니다.
   //       auth_middleware.js 등 파일을 새로 만들거나 controller로 옮기는 등, 다른 방법을 찾아야함.
   //middleware for checking if user is logged in
   /*redirectOnAuthFail(req, res, next) {
