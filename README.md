@@ -13,6 +13,7 @@
 <i>[/dashboard]      [/vacation/manage]    [/vacation/apply]</i><br>
 세션이 없으면 아래의 페이지들 밖에 이용하지 못합니다.<br>
 <i>[/]           [/login]        [/register]</i><br>
+예외적으로 <i>[/account/:id]</i>는 세션에 관계없이 누구나 볼 수 있습니다.<br>
 <b>미들웨어</b>를 사용해서 로그인 여부에 따라 API를 포함한 모든 HTTP endpoint에 대한 접근권한이 결정되며, 자동으로 redirect됩니다.<br><br>
 
 
@@ -37,7 +38,7 @@ src<br>
 
 ## API specifications
 ### Account
-| TYPE  | HTTP ENDPOINT | REQUSET | RESPONSE | REMARKS |
+| TYPE  | HTTP ENDPOINT URI | REQUSET | RESPONSE | REMARKS |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | GET  | /api/v1/account/all  | - | all accounts JSON | |
 | GET  | /api/v1/account/all/on_vacation  | - | all accounts currently on vacation| |
@@ -48,15 +49,15 @@ src<br>
 | DELETE  | /api/v1/account/logout  | authentication token | - | |
 
 ### Vacation
-| TYPE  | HTTP ENDPOINT | REQUSET | RESPONSE | REMARKS |
+| TYPE  | HTTP ENDPOINT URI | REQUSET | RESPONSE | REMARKS |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | GET  | /api/v1/vacation/[id]  | - | vacation | unused |
 | GET  | /api/v1/vacation/user/[id]  | - | list of vacations |  |
 | POST  | /api/v1/vacation/new  | mode, startdate, days, comment, auth | - | |
-| DELETE  | /api/v1/vacation/cancel  | id | - | |
+| DELETE  | /api/v1/vacation/cancel  | id, authentication token | - | |
 
 ### DEMO_ONLY (_DEV 내부용 API)
-| TYPE  | HTTP ENDPOINT | REQUSET | RESPONSE | REMARKS |
+| TYPE  | HTTP ENDPOINT URI | REQUSET | RESPONSE | REMARKS |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | PUT  | /demo_only/increment_servertime  | - | - | increment by 1 day |
 | PUT  | /demo_only/reset_dateoffset  | - | - | reset server time day offset |
@@ -78,6 +79,7 @@ src<br>
 - 연차를 소모한 이후에 DB에서 삭제하는 대신 History로 남겨두게끔 수정
 - 각각 service module에 대해 유닛테스트 작성
 - ADMIN 계정 다시 생성 후 admin route 작성
+- Google Calendar API 사용해서 공휴일 정보 받아오기. 그 후, 시작일, 종료일을 가지고 공휴일을 제외하고 계산해보기.
 
 
 
@@ -93,7 +95,7 @@ src<br>
 - [Concurrency] javascript async 함수들이 언어 내부적으로 정확히 어떻게 구현되어있는지 궁금함. (C로 짠다면 어떻게 구현할까? main event loop? event listeners? job scheduling?)
 
 
-## 기술적 디데일 컨닝노트
+## 기술적 디데일 정리노트
 #### node.js
 operates on a single thread, using non-blocking I/O calls, allowing it to support thousands of simultaneous connections.<br>
 this makes nodejs extremely scalable and adaptable to any number of modules or user load.<br>
