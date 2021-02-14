@@ -35,7 +35,6 @@ src<br>
 |___views       <sub><i># front-end ejs pages (View part in MVC)</i></sub><br>
 
 
-
 ## API specifications
 ### Account
 | TYPE  | HTTP ENDPOINT | REQUSET | RESPONSE | REMARKS |
@@ -64,18 +63,18 @@ src<br>
 ## ISSUES and further Action Items
 <b>[Major issues]</b><br>
 - 코드가 Dependency Hell에 빠지기 직전임. 해결 필요: 각각 service 모듈에 Dependency Injection & IOC? 사용 (예: Service Module이 직접 dependencies를 import하는 대신에 밖에서 constructor에 parameter 형태로 주입)
-- 모든 API에서 제대로 규격화 된 HTTP 상태코드, 그리고 에러 메세지 전달. https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+- 모든 API에서 제대로 규격화 된 HTTP 상태코드, 그리고 에러 메세지 전달. input과 output을 일관된 구조로 구성해야 함. https://developer.mozilla.org/en-US/docs/Web/HTTP/Statusd
 - 논리적인 결함: 연차 횟수를 내년까지 이월 가능함. 연차를 내년 일자로 신청하지 못하게 바꿔야함.
-- 각각 service module에 대해 유닛테스트 작성
 
 <b>[Minor issues]</b><br>
-- Dashboard, manageVacation 등의 페이지를 로딩할 때, controller에서 바로 데이터를 보내는 대신, GET api/v1/account/hjchoi, GET api/v1/vacations/all 같은 GET API를 따로 작성하는게 깔끔할것 같음.<br>
-- async-await에서 try-catch 블록을 제대로 가져다가 붙여야함. (service단에서는 그저 throw만 하고 controller에 try catch 넣는게 더 깔끔하다는 얘기가 있음)<br>
+- Dashboard, manageVacation 등의 페이지를 로딩할 때, controller에서 바로 데이터를 보내는 대신, GET api/v1/account/hjchoi, GET api/v1/vacations/all 같은 GET API를 따로 작성하는게 속도는 느리지만 코드는 깔끔할것 같음.<br>
+- async-await에서 try-catch 블록을 제대로 가져다가 붙여야함. (service단에서는 그저 throw만 하고 controller에 try catch 넣는게 더 깔끔하다는 얘기가 있음, 혹은 Express()가 알아서 예외처리해주길 기다리는것도 방법...)<br>
 - /vacation 모델에서 겹치는 날짜 체크하는 로직에 대한 최적화 가능한지 확인.
 - 잠재적인 결함: 서버가 지속적으로 실행이 되지 않는 환경일 경우: 시간이 지난 vacation (days>1) 이 자동으로 삭제되지 않는 경우가 생김.<br><br>
 
-
-
+<b>[TODO]</b><br>
+- 연차를 소모한 이후에 DB에서 삭제하는 대신 History로 남겨두게끔 수정
+- 각각 service module에 대해 유닛테스트 작성
 
 
 
@@ -156,7 +155,7 @@ querystring library: { 'person[age]': '3', 'person[name]': 'bobby' }<br><br>
 
 
 ## References:
-내가 옛날에 작성했던 코드<br>
+HTML_runtimeLogger.js (Author: hjchoi (2016))<br>
 https://stackoverflow.com/<br>
 https://namu.wiki/w/Node.js?from=Nodejs<br>
 https://www.w3schools.com/<br>

@@ -1,5 +1,7 @@
 <%- include("../partials/nav.ejs") %>
-<h3>manage my vacations</h3>
+<h2>manage my vacations</h2>
+<b> [<span style="color:blue"><%=remaining_vacation%></span> / <%= yearly_vacation_days %>] </b> vacation days remaining
+<br><br>
 <div>
   <ul>
   <% vacations = vacations.sort((a, b) => a.startdate - b.startdate) %>
@@ -23,3 +25,5 @@
   <% }) %>
   </ul>
 </div>
+<br>
+<a href="/dashboard">Return to Dashboard</a>
