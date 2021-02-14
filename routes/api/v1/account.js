@@ -5,6 +5,16 @@ const passport = require("passport")
 const auth = require("../../middleware/auth.js")
 const accountManager = require("../../../services/account.js")
 
+// get account by id
+router.get("/:account_id", async function(req, res) {
+  res.json(await accountManager.getUserById(req.params.account_id))
+})
+
+// get account by name
+router.get("/name/:account_name", async function(req, res) {
+  res.json(await accountManager.getUserByName(req.params.account_name))
+})
+
 // login and authenticate with passport
 router.post("/login", auth.redirectOnAuthSuccess, passport.authenticate("local", {
   successRedirect: "/dashboard",
@@ -24,8 +34,8 @@ router.post("/register", auth.redirectOnAuthSuccess, async function(req, res) {
 
 // logout and destroy current session
 router.delete("/logout", function(req, res) {
-  req.logOut();
-  res.redirect("/login");
+  req.logOut()
+  res.redirect("/login")
 })
 
 module.exports = router

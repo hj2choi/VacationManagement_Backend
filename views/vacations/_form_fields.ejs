@@ -31,18 +31,21 @@
   document.getElementById('full').onchange = function() {
     if(this.checked==true){
       document.getElementById("startdate").focus();
+      document.getElementById("days").value = 1;
       enable();
     }
   };
   document.getElementById('half').onchange = function() {
     if(this.checked==true){
       document.getElementById("startdate").focus();
+      document.getElementById("days").value = 0.5;
       disable();
     }
   };
   document.getElementById('quarter').onchange = function() {
     if(this.checked==true){
       document.getElementById("startdate").focus();
+      document.getElementById("days").value = 0.25;
       disable();
     }
   };

@@ -1,4 +1,4 @@
-<h3 style="color:red">WARNING: THIS ROUTE MUST BE REMOVED FOR ACTUAL PRODUCTION (for demo only)</h3>
+<h3 style="color:red">WARNING: THIS ROUTE MUST BE REMOVED FOR ACTUAL PRODUCTION (for demo only, set config.ENABLE_DEMO_ONLY_ROUTE to false)</h3>
 <h3>Server Time (Korean Standard Time, UTC+9):</h3>
 <p id="time"><%= (new Date(servertimemillis)).toISOString().split('.')[0] %></p>
 <form action="/demo_only/increment_servertime?_method=PUT" method="POST">
@@ -6,7 +6,15 @@
 </form>
 <br><br><br><br>
 
-<h3>DB View</h3>
+<form action="/demo_only/reset_dateoffset?_method=PUT" method="POST">
+  <button type="submit">Reset server time date offset</button>
+</form>
+<br><br>
+
+<h3>DB View</h3>reset_dateoffset
+<form action="/demo_only/reset_user_remainingvacation?_method=PUT" method="POST">
+  <button type="submit">Reset all user's remaining vacation (reset to 15 days default)</button>
+</form>
 <h4>All Accounts:</h4>
 <%= JSON.stringify(accounts) %>
 <br><br>

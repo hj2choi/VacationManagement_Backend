@@ -33,6 +33,10 @@ class ServerDateManager {
     this.dayoffset += 1
   }
 
+  resetDayOffset() {
+    this.dayoffset = 0
+  }
+
 }
 
 module.exports = new ServerDateManager()

@@ -1,63 +1,58 @@
 ## Project Description
+사용한 기술 스택은 Node.js, Express, MongoDB 그리고 ejs입니다.<br><br>
+
+모든 시간값은 Korea Standard Timezone (GMT+9h)에 맞추어 표기됩니다. (front-end와 back-end 사이의 일관성 있는 시간 계산을 위해 전용 wrapper class를 만들었습니다.)<br>
+config/config.json 에서 session timeout (현재 6분), 매년 주어지는 총 연차 일수 등의 값을 설정할 수 있습니다.<br><br>
 
 
+당일 연차는 취소할 수 없습니다. 그리고 새벽 00:00시에 그 날의 연차가 소모됩니다.<br>
+이미 연차가 신청이 되어있는 날짜에 추가로 연차를 신청할 수 없습니다.<br><br>
 
 
+로그인이 되어있는 유저가 직접 이용할 수 있는 페이지는 세 개 입니다.<br>
+[/dashboard]      [/vacation/manage]    [/vacation/apply<br>]
+세션이 없으면 아래의 페이지들 밖에 이용하지 못합니다.<br>
+[/]           [/login]        [/register]<br>
+미들웨어를 사용해서 로그인 여부에 따라 API를 포함한 모든 HTTP endpoint에 대한 접근권한이 결정되며, 자동으로 redirect됩니다.<br><br>
 
 
-
-모든 시간값은 Korea Standard Timezone (GMT+9h)에 맞추어 표기됩니다.
-Config
-
-
+오로지 테스트를 위한 전용 페이지를 생성했습니다. 이 페이지에서 Authentication은 적용되지 않습니다.<br>
+/demo_only/backdoor/<br>
+여기에 들어가서 서버 내부 시간을 빨리감기 하며 테스트 할 수 있습니다.<br>
+모든 사용자의 연차 일수를 초기화 시킬 수 있습니다.<br>
+또한, raw 데이터베이스 정보를 볼 수 있습니다.<br>
+config.json의 ENABLE_DEMO_ROUTES = false로 설정하면 관련 API과 백도어 기능을 전부 비활성화 시킬 수 있습니다.<br><br>
 
 
 ## Project Structure
-src
-|   server.js   # App entry point
-|___config      # configurations
-|___models      # Database models
-|___public      # Publicly accessible directory (images, public filesystem, etc)
-|___routes      # Express route controllers for all the HTTP endpoints (Controller part in MVC)
-|___services    # All business logic (Model part in MVC)
-|___views       # front-end ejs pages (View part in MVC)
+src<br>
+|   server.js   <i># App entry point</i><br>
+|___config      <i># configurations</i><br>
+|___models      <i># Database models</i><br>
+|___public      <i># Publicly accessible directory (images, public filesystem, etc)</i><br>
+|___routes      <i># Express route controllers for all the HTTP endpoints (Controller part in MVC)</i><br>
+|___services    <i># All business logic (Model part in MVC)</i><br>
+|___views       <i># front-end ejs pages (View part in MVC)</i><br>
 
 
 
-
-## MongoDB Schema
-
-
-
-
-
-
-## TODO
-migrate all to DB
-
-[optional] vacation start date -> end date by excluding public holidays
-[optional]
-respond with proper HTML status code and error message (with livelogger lib)
-
+## API specifications
 
 
 
 
 ## ISSUES and further Action Items
-[Major issues]
-코드가 Dependency Hell에 빠지기 직전임. 해결 필요: 각각 service 모듈에 Dependency Injection & IOC? 사용 (예: Service Module이 직접 dependencies를 import하는 대신에 밖에서 constructor에 parameter 형태로 주입)
-모든 API에서 제대로 규격화 된 HTTP 상태코드, 그리고 에러 메세지 전달. https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+[Major issues]<br>
+- 코드가 Dependency Hell에 빠지기 직전임. 해결 필요: 각각 service 모듈에 Dependency Injection & IOC? 사용 (예: Service Module이 직접 dependencies를 import하는 대신에 밖에서 constructor에 parameter 형태로 주입)
+- 모든 API에서 제대로 규격화 된 HTTP 상태코드, 그리고 에러 메세지 전달. https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+- 논리적인 결함: 연차 횟수를 내년까지 이월 가능함. 연차를 내년 일자로 신청하지 못하게 바꿔야함.
+- 각각 service module에 대해 유닛테스트 작성
 
-
-[Minor issues]
-Dashboard, manageVacation 등의 페이지를 로딩할 때, controller에서 바로 데이터를 보내는 대신, GET api/v1/account/hjchoi, GET api/v1/vacations/all 같은 GET API를 따로 작성하는게 깔끔할것 같음.
-async-await에서 try-catch 블록을 제대로 가져다가 붙여야함. (service단에서는 그저 throw만 하고 controller에 try catch 넣는게 더 깔끔하다는 얘기가 있음)
-각각 service module에 대해 유닛테스트 작성
-Date() 객체에 대해 제대로 파악하면 날짜 계산 로직 좀 더 간결하게 바꿀 수 있을듯. (특히 Date()객체 operator override 적극적으로 사용)
-유저 확인 로직을 좀더 정석적으로 username 대신 unique ID로 비교. 혹은, 더 secure한 방법이 있는지 확인 필요.
-POST api/v1/vacation/new에서 잘못된 입력값 처리는 대부분 front-end에서 막아놓음. back-end단에서도 처리를 했지만, 구멍이 없는지 좀 더 체계적으로 확인이 필요함.
-services/vacation 모델에서 겹치는 날짜 체크하는 로직에 대한 최적화 가능한지 확인.
-change var to const for immutable stuff
+[Minor issues]<br>
+- Dashboard, manageVacation 등의 페이지를 로딩할 때, controller에서 바로 데이터를 보내는 대신, GET api/v1/account/hjchoi, GET api/v1/vacations/all 같은 GET API를 따로 작성하는게 깔끔할것 같음.<br>
+- async-await에서 try-catch 블록을 제대로 가져다가 붙여야함. (service단에서는 그저 throw만 하고 controller에 try catch 넣는게 더 깔끔하다는 얘기가 있음)<br>
+- /vacation 모델에서 겹치는 날짜 체크하는 로직에 대한 최적화 가능한지 확인.
+- 잠재적인 결함: 서버가 지속적으로 실행이 되지 않는 환경일 경우: 시간이 지난 vacation (days>1) 이 삭제되지 않는 경우가 발생할 수 있음.<br><br>
 
 
 
@@ -66,38 +61,38 @@ change var to const for immutable stuff
 
 
 
-## technical details
-####node.js
-operates on a single thread, using non-blocking I/O calls, allowing it to support thousands of simultaneous connections.
-this makes nodejs extremely scalable and adaptable to any number of modules or user load.
-pros: faster development time, productivity
-pros: single thread, event driven and async. doesn't have to create new thread for every request.
-cons: performance drop when handling heavy computing tasks
-cons: unstable API, possible lack of library support
+## 기술적 디데일 컨닝노트
+#### node.js
+operates on a single thread, using non-blocking I/O calls, allowing it to support thousands of simultaneous connections.<br>
+this makes nodejs extremely scalable and adaptable to any number of modules or user load.<br>
+pros: faster development time, productivity<br>
+pros: single thread, event driven and async. doesn't have to create new thread for every request.<br>
+cons: performance drop when handling heavy computing tasks<br>
+cons: unstable API, possible lack of library support<br>
 
 
 
-####node.js threadpool:
-fixed number of threads are created as soon as node app starts.
-all incoming requests are placed in a queue.
-Then, any free thread in the pool handles the request.
+#### node.js threadpool:
+fixed number of threads are created as soon as node app starts.<br>
+all incoming requests are placed in a queue.<br>
+Then, any free thread in the pool handles the request.<br>
 
 
 
-####Promise:
+#### Promise:
 proxy for a value not necessarily known when the promise is created.
 Allows you to associate handlers with async action's eventual success value or failure reason.
 states => pending, fulfilled, rejected
 
 
 
-####How to avoid callback hell:
-use promises
+#### How to avoid callback hell:
+use promises<br>
 use async/await
 
 
 
-####password encryption Salt:
+#### password encryption Salt:
 salt is a random string. by using hash(password+salt), hash function is not predictable.
 The same password will not yield the same hash.
 No need to store salt in the DB, as it gets automatically included with the hash.
@@ -105,34 +100,33 @@ No need to store salt in the DB, as it gets automatically included with the hash
 
 
 
-####app.use(express.urlencoded({ extended: false }));
-parse url_encoded data ex) localhost3000?person[name]=bobby&person[age]=3
-then, let us use that data in POST req.body
+#### app.use(express.urlencoded({ extended: false }));
+parse url_encoded data ex) localhost3000?person[name]=bobby&person[age]=3<br>
+then, let us use that data in POST req.body<br>
 
-extended:false => use query-string module instead of qs module
-qs library:          { person: { name: 'bobby', age: '3' } }
-querystring library: { 'person[age]': '3', 'person[name]': 'bobby' }
+extended:false => use query-string module instead of qs module<br>
+qs library:          { person: { name: 'bobby', age: '3' } }<br>
+querystring library: { 'person[age]': '3', 'person[name]': 'bobby' }<br><br>
 
 
 
 
 
 #### package description:
-nodemon: restart service automatically every time a change is made
-dotenv: .env file with all configurations
-passport: authentication library (can be used with facebook, google login etc)
-passport-local: authentication library for local login/register system
-express-session: manages authentication token (temporary token with timeout variable. Used for keeping account alive through different pages)
-express-flash: displays pretty authentication messages. Internally used by passport.
-method-override: override API method, allow to use POST from HTML for delete API
-cron: job scheduler
+nodemon: restart service automatically every time a change is made<br>
+dotenv: .env file with all configurations<br>
+passport: authentication library (can be used with facebook, google login etc)<br>
+passport-local: authentication library for local login/register system<br>
+express-session: manages authentication token (stored in Cookies. Used for keeping account alive through different pages)<br>
+express-flash: displays pretty authentication messages. Internally used by passport.<br>
+method-override: override API method, allow to use POST from HTML for delete API<br>
+cron: job scheduler<br>
 
 
 
-## questions:
-are modules (require("module")) designed in singleton pattern?
-I don't know full inner-workings of passport. Session is stored in Cookies as encrypted auth token
-I don't know how salt works exactly. I just know that salt is a random string that doesn't need to be stored in DB
+## 기술적인 궁금점
+I don't know full inner-workings of passport. Session is stored in Cookies as encrypted auth token<br>
+I don't know how salt works exactly. I just know that salt is a random string that doesn't need to be stored in DB<br>
 
 
 
@@ -140,10 +134,14 @@ I don't know how salt works exactly. I just know that salt is a random string th
 
 
 ## References:
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-https://www.youtube.com/watch?v=-RCnNyD0L-s&ab_channel=WebDevSimplified
-https://github.com/WebDevSimplified/Mybrary/tree/v1.2
-https://softwareontheroad.com/ideal-nodejs-project-structure/
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status<br>
+https://www.youtube.com/watch?v=-RCnNyD0L-s&ab_channel=WebDevSimplified<br>
+https://www.youtube.com/watch?v=XlvsJLer_No&list=PLZlA0Gpn_vH8jbFkBjOuFjhxANC63OmXM&index=1&ab_channel=WebDevSimplified<br>
+https://github.com/WebDevSimplified/Mybrary/tree/v1.2<br>
+https://softwareontheroad.com/ideal-nodejs-project-structure/<br>
+
+
+
 
 
 ## 온라인 테스트 진행 방법

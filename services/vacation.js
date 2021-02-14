@@ -138,7 +138,7 @@ class VacationManager {
   async getAllVacations(userid) {
     try {
       //!!!!! BACKDOOR
-      if (userid === "BACKDOOR") {
+      if (config.ENABLE_DEMO_ROUTES && userid === "BACKDOOR") {
         return await Vacation.find({}).exec()
       }
 
