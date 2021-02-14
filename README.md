@@ -1,4 +1,7 @@
 ## Project Description
+Application Link (Herokuapp + MongoDB):<br>
+https://employee-vacation-manager.herokuapp.com/dashboard
+
 사용한 기술 스택은 <b>Node.js, Express, MongoDB</b> 그리고 <b>ejs</b>입니다. (Angular 없는 MEAN Stack)<br><br>
 
 모든 시간값은 Korea Standard Timezone (GMT+9h)에 맞추어 표기됩니다. (front-end와 back-end 사이의 일관성 있는 시간 계산을 위해 전용 wrapper class를 만들었습니다.)<br>
@@ -41,7 +44,7 @@ src<br>
 | TYPE  | HTTP ENDPOINT URI | REQUSET | RESPONSE | REMARKS |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | GET  | /api/v1/account/all  | - | all accounts JSON | unused |
-| GET  | /api/v1/account/all/on_vacation  | - | all accounts currently on vacation| |
+| GET  | /api/v1/account/all/on_vacation  | - | all accounts currently on vacation| unused |
 | GET  | /api/v1/account/[id]  | - | single account JSON | unused |
 | GET  | /api/v1/account/name/[name]  | - | single account JSON| unused |
 | POST  | /api/v1/account/login  | name, password | authentication token | |
