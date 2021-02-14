@@ -54,7 +54,7 @@ src<br>
 | POST  | /api/v1/vacation/new  | mode, startdate, days, comment, auth | - | |
 | DELETE  | /api/v1/vacation/cancel  | id | - | |
 
-### DEMO_ONLY (_DEV internal 내부용 API)
+### DEMO_ONLY (_DEV 내부용 API)
 | TYPE  | HTTP ENDPOINT | REQUSET | RESPONSE | REMARKS |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | PUT  | /demo_only/increment_servertime  | - | - | increment by 1 day |

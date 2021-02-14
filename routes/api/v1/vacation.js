@@ -18,18 +18,18 @@ router.get("/user/:account_id", async function(req, res) {
 // add new vacation
 router.post("/new", auth.redirectOnAuthFail, async function(req, res) {
   if (await vacationManager.applyVacation(req.user, req)) {
-    res.redirect("/vacation")
+    res.redirect("/vacation/manage")
   } else {
-    res.redirect("/dashboard")
+    res.redirect("/vacation/apply/?error="+"failed to apply for vacation")
   }
 });
 
 // delete vacation with ID
 router.delete("/cancel", auth.redirectOnAuthFail, async function(req, res) {
   if (await vacationManager.cancelVacation(req.user, req)) {
-    res.redirect("/vacation")
+    res.redirect("/vacation/manage")
   } else {
-    res.redirect("/vacation")
+    res.redirect("/vacation/manage/?error="+"username already exists")
   }
 });
 

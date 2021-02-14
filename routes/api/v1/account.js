@@ -28,7 +28,7 @@ router.post("/register", auth.redirectOnAuthSuccess, async function(req, res) {
     res.redirect("/login")
   }
   else {
-    res.redirect("/register")
+    res.redirect("/register/?error="+"username already exists")
   }
 });
 

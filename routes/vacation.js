@@ -13,6 +13,7 @@ router.get('/', auth.redirectOnAuthFail, (req, res) => {
 // manage vacations route
 router.get('/manage', auth.redirectOnAuthFail, async (req, res) => {
   res.render('vacations/manage', {
+    messages: {error: req.query.error},
     todayISOString: my_date.todayISOString(),
     vacations: await vacationManager.getAllVacations(req.user.id)
   })
@@ -21,6 +22,7 @@ router.get('/manage', auth.redirectOnAuthFail, async (req, res) => {
 // apply for vacation route
 router.get('/apply', auth.redirectOnAuthFail, (req, res) => {
   res.render('vacations/apply', {
+    messages: {error: req.query.error},
     todayISOString: my_date.todayISOString(),
     remaining_vacation: req.user.remaining_vacation
   })

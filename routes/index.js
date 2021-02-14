@@ -10,7 +10,8 @@ router.get('/', auth.redirectOnAuthSuccess, (req, res) => {
 // dashboard route
 router.get('/dashboard', auth.redirectOnAuthFail, (req, res) => {
   res.render('dashboard',
-  {username: req.user.name,
+  {messages: {error: req.query.error},
+    username: req.user.name,
     userid: req.user.id,
     useremail: req.user.email,
     remaining_vacation: req.user.remaining_vacation
@@ -24,7 +25,7 @@ router.get('/login', auth.redirectOnAuthSuccess, (req, res) => {
 
 // register route
 router.get('/register', auth.redirectOnAuthSuccess, (req, res) => {
-  res.render('register')
+  res.render('register', {messages: {error: req.query.error}})
 })
 
 module.exports = router
