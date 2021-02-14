@@ -57,14 +57,14 @@ class VacationManager {
         for (var j = 0; j < Math.ceil(existing_vacations[i].days); ++j) {
           var startdate_obj = new Date(Date.parse(startdate))
           for (var k = 0; k < Math.ceil(days); ++k) {
-            //console.log(toisostring(startdate_obj)+" vs "+toisostring(existingdate_obj))
+            //console.log(this._toDateISOString(startdate_obj)+" vs "+this._toDateISOString(existingdate_obj))
             if (this._toDateISOString(startdate_obj) === this._toDateISOString(existingdate_obj)) {
               console.log("applyVacation(): overlapping vacation dates")
               return false;
             }
-            startdate_obj.setTime(dateobj.getTime() - DAY_MILLIS)
+            startdate_obj.setTime(startdate_obj.getTime() + DAY_MILLIS)
           }
-          existingdate_obj.setTime(dateobj.getTime() - DAY_MILLIS)
+          existingdate_obj.setTime(existingdate_obj.getTime() + DAY_MILLIS)
         }
       }
 
@@ -82,7 +82,8 @@ class VacationManager {
       }
       console.log("applyVacation(): not enough remaining vacation dates")
       return false
-    } catch {
+    } catch (e) {
+      console.log(e)
       return false
     }
   }

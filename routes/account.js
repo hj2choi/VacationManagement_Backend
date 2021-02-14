@@ -7,7 +7,6 @@ const accountManager = require("../services/account.js")
 router.get("/:account_id", async function(req, res) {
   try {
     const user = await accountManager.getUserById(req.params.account_id)
-    console.log(user)
     if (!user) {
       res.redirect("/")
     } else {
