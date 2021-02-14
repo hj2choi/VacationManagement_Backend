@@ -75,7 +75,7 @@ src<br>
 <b>[TODO]</b><br>
 - 연차를 소모한 이후에 DB에서 삭제하는 대신 History로 남겨두게끔 수정
 - 각각 service module에 대해 유닛테스트 작성
-
+- ADMIN 계정 다시 생성 후 admin route 작성
 
 
 

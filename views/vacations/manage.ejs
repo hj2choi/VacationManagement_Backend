@@ -3,6 +3,10 @@
 <b> [<span style="color:blue"><%=remaining_vacation%></span> / <%= yearly_vacation_days %>] </b> vacation days remaining
 <br><br>
 <div>
+  <% if (vacations.length == 0) { %>
+    - No reserved vacation yet.<br>
+    <b><a href="/vacation/apply">Apply for new Vacation</a></b><br><br><br><br>
+  <% } %>
   <ul>
   <% vacations = vacations.sort((a, b) => a.startdate - b.startdate) %>
   <% vacations.forEach(vacation => { %>
