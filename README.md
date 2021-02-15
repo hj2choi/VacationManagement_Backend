@@ -1,5 +1,5 @@
 ## Project Description
-Application Link (Herokuapp + MongoDB):<br>
+Application Link (Herokuapp + MongoLAB):<br>
 https://employee-vacation-manager.herokuapp.com/dashboard
 
 사용한 기술 스택은 <b>Node.js, Express, MongoDB</b> 그리고 <b>ejs</b>입니다. (Angular 없는 MEAN Stack)<br><br>
