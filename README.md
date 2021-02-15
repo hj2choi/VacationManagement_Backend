@@ -71,6 +71,7 @@ src<br>
 - 코드가 Dependency Hell에 빠지기 직전임. 해결 필요: 각각 service 모듈에 Dependency Injection & IOC? 사용 (예: Service Module이 직접 dependencies를 import하는 대신에 밖에서 constructor에 parameter 형태로 주입)
 - 모든 API에서 제대로 규격화 된 HTTP 상태코드, 그리고 에러 메세지 전달. input과 output을 일관된 구조로 구성해야 함. https://developer.mozilla.org/en-US/docs/Web/HTTP/Statusd
 - 논리적인 결함: 연차 횟수를 내년까지 이월 가능함. 연차를 내년 일자로 신청하지 못하게 바꿔야함.
+- Timezone 로직: UTC+9로 표기되지만 실제 timestamp데이터는 frontend & backend 통틀어 UTC+0으로 관리되는지 제대로 확인해야함. 그리고 config를 통해서 한번에 관리할 수 있도록 refactor.
 
 <b>[Minor issues]</b><br>
 - Dashboard, manageVacation 등의 페이지를 로딩할 때, controller에서 바로 데이터를 보내는 대신, GET api/v1/account/hjchoi, GET api/v1/vacations/all 같은 GET API에서 따로 데이터를 불러오게 하는게 속도는 느리지만 코드는 깔끔할것 같음.<br>
