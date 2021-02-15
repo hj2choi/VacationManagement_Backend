@@ -1,4 +1,4 @@
-const TIMEZONEOFFSET = (new Date()).getTimezoneOffset()
+const TIMEZONEOFFSET = require("../config/config").TIMEZONE_OFFSET_MILLIS
 const MUNITE_MILLIS = 60000
 const DAY_MILLIS = 86400000
 
