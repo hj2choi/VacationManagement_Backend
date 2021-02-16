@@ -68,6 +68,7 @@ src<br>
 
 ## ISSUES and further Action Items
 <b>[Major issues]</b><br>
+- <b>[MongoDB NoSQL 관련 Issue]</b> 커다란 결함 발견. NoSQL에는 Transaction이 없기 때문에 apply for vacation 버튼을 빠르게 두번 클릭하면 하루에 연차가 두번 써짐.
 - 코드가 Dependency Hell에 빠지기 직전임. 해결 필요: 각각 service 모듈에 Dependency Injection & IOC? 사용 (예: Service Module이 직접 dependencies를 import하는 대신에 밖에서 constructor에 parameter 형태로 주입)
 - 모든 API에서 제대로 규격화 된 HTTP 상태코드, 그리고 에러 메세지 전달. input과 output을 일관된 구조로 구성해야 함. https://developer.mozilla.org/en-US/docs/Web/HTTP/Statusd
 - 1월 1일 연차 횟수 초기화와 관련한 논리적인 결함: 현재로서는 연차를 내년 일자로 신청이 가능함. 수정 필요.
