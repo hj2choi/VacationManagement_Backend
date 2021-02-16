@@ -15,8 +15,6 @@ function initScheduler() {
     console.log("YEARLY SCHEDULED PROCESS: resetAllUserRemainingVacation()")
     accountManager.resetAllUserRemainingVacation()
   }, null, true, config.TIMEZONE_LOCALE)
-  
-  vacationManager.clearAndUpdateAllVacation()
 }
 
 module.exports = initScheduler
