@@ -8,7 +8,7 @@ const DAY_MILLIS = 86400000
 
 class VacationManager {
   constructor() {
-    this.user_mutexlock = Set()
+    this.user_mutexlock = new Set()
   }
 
   _toDateISOString(dateobj) {
