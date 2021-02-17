@@ -8,6 +8,7 @@ const DAY_MILLIS = 86400000
 
 class VacationManager {
   constructor() {
+    this.user_mutexlock = Set()
   }
 
   _toDateISOString(dateobj) {
@@ -15,6 +16,13 @@ class VacationManager {
   }
 
   async applyVacation(user, req) {
+    // mutex lock
+    if (this.user_mutexlock.has(user.id)) {
+      console.log("applyVacation() for user "+user.name+" is currently locked")
+      return false
+    }
+    this.user_mutexlock.add(user.id)
+
     //@TODO: remove this large unpretty try-catch block, and handle it from controller or something.
     try {
       var mode = req.body.mode
@@ -28,6 +36,7 @@ class VacationManager {
       // check if user exists
       if (!user) {
         console.log("applyVacation(): user doesn't exist")
+        this.user_mutexlock.delete(user.id)
         return false
       }
 
@@ -35,6 +44,7 @@ class VacationManager {
       if (startdatemillis - dateManager.getAdjustedTimeMillis() < 0 &&
           req.body.startdate !== dateManager.todayISOString()) {
         console.log("applyVacation(): invalid vacation start date")
+        this.user_mutexlock.delete(user.id)
         return false;
       }
 
@@ -47,6 +57,7 @@ class VacationManager {
         days = Math.floor(days)
       } else {
         console.log("applyVacation(): invalid vacation mode")
+        this.user_mutexlock.delete(user.id)
         return false
       }
 
@@ -60,6 +71,7 @@ class VacationManager {
             //console.log(this._toDateISOString(startdate_obj)+" vs "+this._toDateISOString(existingdate_obj))
             if (this._toDateISOString(startdate_obj) === this._toDateISOString(existingdate_obj)) {
               console.log("applyVacation(): overlapping vacation dates")
+              this.user_mutexlock.delete(user.id)
               return false;
             }
             startdate_obj.setTime(startdate_obj.getTime() + DAY_MILLIS)
@@ -78,12 +90,15 @@ class VacationManager {
           comment: comment
         })
         const newVacation = await vacation.save()
+        this.user_mutexlock.delete(user.id)
         return true
       }
       console.log("applyVacation(): not enough remaining vacation dates")
+      this.user_mutexlock.delete(user.id)
       return false
     } catch (e) {
       console.log(e)
+      this.user_mutexlock.delete(user.id)
       return false
     }
   }
