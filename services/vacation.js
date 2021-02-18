@@ -17,13 +17,13 @@ class VacationManager {
   async applyVacation(user, req) {
     //@TODO: remove this large unpretty try-catch block, and handle it from controller or something.
     try {
-      var mode = req.body.mode
-      var startdate = req.body.startdate
-      var startdatemillis = (new Date(req.body.startdate)).getTime()
+      const mode = req.body.mode
+      const startdate = req.body.startdate
+      const startdatemillis = (new Date(req.body.startdate)).getTime()
+      const comment = req.body.comment
+      const username = user.name
+      const userid = user.id
       var days = req.body.days
-      var comment = req.body.comment
-      var username = user.name
-      var userid = user.id
 
       // check if user exists
       if (!user) {
@@ -50,8 +50,9 @@ class VacationManager {
         return false
       }
 
-      // check for overlapping dates. @TODO optimize this routine
-      var existing_vacations = await this.getAllVacations(userid)
+      // check for overlapping dates.
+      const account = await Account.findById(userid).exec()
+      const existing_vacations = await Vacation.find({account: account.id}).select("startdate days").exec()
       for (var i = 0; i < existing_vacations.length; ++i) {
         var existingdate_obj = new Date(existing_vacations[i].startdate)//new Date(Date.parse(existing_vacations[i].startdate))
         for (var j = 0; j < Math.ceil(existing_vacations[i].days); ++j) {
